@@ -4,12 +4,15 @@ import Header from '../components/Header';
 import { MdAdd, MdDeleteForever } from "react-icons/md";
 import { BiEdit } from "react-icons/bi";
 import { Link } from 'react-router-dom'
+import DeleteModal from '../components/DeleteModal';
 
 
 export default function Home() {
 
   const [bookList, setbookList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [deleteBookId, setDeleteBookId] = useState('');
 
 
   async function fetchAllBooks() {
@@ -19,14 +22,27 @@ export default function Home() {
     setLoading(false);
   }
 
-  console.log(bookList);
-
   useEffect(() => {
     fetchAllBooks()
   }, []);
 
   if (loading) return <div className=''>Loading</div>
 
+  const handleDelete = async (bookId) => {
+    const res = await axios.delete(`http://localhost:5000/api/books/${bookId}`);
+    
+    if(res){
+      fetchAllBooks()
+    }
+  }
+
+  function openModal(bookId) {
+    setIsOpen(true);
+    setDeleteBookId(bookId);
+  }
+  function closeModal() {
+    setIsOpen(false)
+  }
 
   return (
     <>
@@ -68,10 +84,12 @@ export default function Home() {
                 <td className='text-lg'>{book.publishYear}</td>
                 <td className='text-lg'>
                   <div className='flex text-xl'>
-                    <Link className='text-blue-500' to={`/books/edit/:${book._id}`}>
+                    <Link className='text-blue-500' to={`/books/edit/${book._id}`}>
                       <BiEdit className='text-lg' />
                     </Link>
-                    <Link className='text-red-500 ml-4'>
+                    <Link className='text-red-500 ml-4'
+                      onClick={() => openModal(book._id)}
+                    >
                       <MdDeleteForever className='text-lg' />
                     </Link>
                   </div>
@@ -80,6 +98,7 @@ export default function Home() {
             ))}
           </tbody>
         </table>
+        <DeleteModal setIsOpen={setIsOpen} isOpen={isOpen} deleteBookId={deleteBookId} onClose={closeModal} onDelete={handleDelete} />
       </div>
     </>
   )

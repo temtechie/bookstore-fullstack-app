@@ -51,7 +51,7 @@ function CreateBook() {
         <div className='mb-4'>
           <label htmlFor="title" className='block text-lg'>Author</label>
           <input type="text"
-            name='title'
+            name='author'
             placeholder='Enter book name'
             className='bg-gray-200 px-4 py-2 
             rounded-md w-96'
@@ -60,9 +60,9 @@ function CreateBook() {
           />
         </div>
         <div className='mb-4'>
-          <label htmlFor="publishedYear" className='block text-lg'>Publish Year</label>
+          <label htmlFor="publishYear" className='block text-lg'>Publish Year</label>
           <input type="number"
-            name='title'
+            name='publishYear'
             placeholder='Enter book name'
             className='bg-gray-200 px-4 py-2 
             rounded-md w-96'
