@@ -27,7 +27,7 @@ router.post('/books', async (req, res) => {
 
 router.get('/books', async (req, res) =>{
     try {
-        const books = await Book.find();
+        const books = await Book.find().sort({ title: 1 });
         return res.status(200).json(books);
     } catch (error) {
         console.log("Failed to fetch data. Error: ", error.message);

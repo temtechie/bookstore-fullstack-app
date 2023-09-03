@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 import { Routes, Route, useParams } from 'react-router-dom';
+import Loader from '../components/Loader';
 
 function EditBook() {
 
@@ -14,15 +15,15 @@ function EditBook() {
     navigateTo('/');
   };
 
-  // const [title, setTitle] = useState('');
-  // const [author, setAuthor] = useState('');
-  // const [publishYear, setPublishYear] = useState(null);
   const [singleBook, setSingleBook] = useState({});
+  const [loading, setLoading] = useState(false);
   
 
   const fetchSingleBook = async(bookId) => {
+    setLoading(true)
     const res = await axios.get(`http://localhost:5000/api/books/${bookId}`);
-    setSingleBook(res.data.book)
+    setSingleBook(res.data.book);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -32,10 +33,7 @@ function EditBook() {
   }, [bookId]);
 
   function updateBookData (e, name){
-
     setSingleBook({...singleBook,  [name]: e.target.value});
-
-
   }
 
 
@@ -62,7 +60,7 @@ function EditBook() {
     navigateTo('/');
   }
 
-  console.log("singleBook", singleBook);
+  if (loading) return <Loader />
 
   return (
     <div className=''>
