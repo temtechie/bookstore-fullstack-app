@@ -1,15 +1,9 @@
 import mongoose from 'mongoose';
-const uri = "mongodb+srv://bookshop:bookpassword@bookshopcluster.uhqvufr.mongodb.net/books-collections?retryWrites=true&w=majority"
+import dotenv from 'dotenv';
 
-// export function connectDB() {
-//     mongoose.connect(uri)
-//         .then(() => {
-//             console.log('Connected to MongoDB Atlas');
-//         })
-//         .catch((error) => {
-//             console.error('Error connecting to MongoDB Atlas:', error);
-//         });
-// }
+dotenv.config();
+
+const uri = process.env.MONGODBURI;
 
 export async function connectDB() {
     try {
